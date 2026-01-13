@@ -2,20 +2,10 @@
 
 ## 專案目的
 
-本專案旨在展示如何透過 **Model Context Protocol (MCP)** 結合 **AI Agent**，
+這次目標展示如何透過 **Model Context Protocol (MCP)** 結合 **AI Agent**，
 實現對 Wazuh SIEM 的對話式威脅狩獵（Threat Hunting）。
 
-透過自然語言操作，資安人員可快速完成下列任務：
 
-- 資產清查（Asset Inventory）
-- 即時威脅狩獵（Threat Hunting）
-- 自動化合規性評估（Compliance Review）
-
-本專案以概念驗證（Proof of Concept, PoC）方式呈現，
-不依賴實際部署之 Wazuh Manager 或 MCP Server，
-重點在於展示系統設計思路與操作流程。
-
----
 
 ## 系統架構說明
 
@@ -46,7 +36,7 @@ Wazuh 作為資安事件來源，
 
 ---
 
-## 操作情境模擬
+## 操作情境
 
 ### 資產清查與威脅初步分析
 
@@ -75,4 +65,28 @@ AI Agent 透過 MCP Server 呼叫告警摘要工具後，回傳分析結果如�
   ],
   "analysis": "偵測到多次登入失敗事件，具備暴力破解行為特徵，建議封鎖來源 IP 並檢查帳號安全性。"
 }
+```
 
+使用者操作指令：
+檢查目前系統的 CIS Benchmark 合規性狀況，找出潛在的安全配置錯誤。
+回傳：
+```json{
+  "compliance_issues": [
+    {
+      "category": "Password Policy",
+      "issue": "最小密碼長度不足 12 字元"
+    },
+    {
+      "category": "SSH Configuration",
+      "issue": "允許 root 遠端登入"
+    },
+    {
+      "category": "Firewall",
+      "issue": "部分端口未依 CIS 建議封鎖"
+    }
+  ],
+  "recommendation": "建議調整密碼策略、停用 root 遠端登入，並修正防火牆規則以符合 CIS Benchmark。"
+}
+```
+這次實作透過MCP與AI Agent的整合，
+展示未來Chat-based SecOps的實務應用可能性。
